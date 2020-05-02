@@ -1,0 +1,66 @@
+
+{{#if userCart}}
+
+<div style="padding-top: 30px">
+    <table class="table table-bordered ">
+  <thead>
+    <tr class="table-active">
+      <th scope="col" class="text-center">#</th>
+      <th scope="col" class="text-center">Product Name</th>
+      <th scope="col" class="text-center">Product Quantity</th>
+      <th scope="col" class="text-center">Product Price</th>
+      <th scope="col" class="text-center">Delet Product</th>
+    </tr>
+  </thead>
+  <tbody>
+      {{#each userCart.selectedProduct as | val index|}}
+          <tr>
+      <th scope="row" class="text-center">{{add @index}}</th>
+      <td class="text-center">
+        {{val.name}}
+        </td>
+      <td class="text-center">
+        {{#if (checkQuantity @val.quantity)}}
+          <a href="#" class="btn disabled" style="margin-right: 30px"><i class="fas fa-minus-square"></i></a>
+        {{else}}
+          <a href="/decreaseProduct/{{index}}" class="btn" style="margin-right: 30px"><i class="fas fa-minus-square"></i></a>
+        {{/if}}
+        
+        {{val.quantity}}
+        <a href="/increaseProduct/{{index}}" class="btn" style="margin-left: 30px"><i class="fas fa-plus-square"></i></a>
+        </td>
+      <td class="text-center">{{val.price}}</td>
+      <td class="text-center"> <a href="/deleteProduct/{{index}}" class="btn btn-danger">delete <i class="fas fa-trash-alt"></i></a></td>
+    </tr>
+
+      {{/each}}
+
+      <tr class="table-primary">
+      <td colspan="3" style="font-weight: bold">Total Price</td>
+      <td style="font-weight: bold" class="text-center "> $ {{userCart.totalPrice}}</td>
+      </tr>
+    
+  </tbody>
+</table>
+</div>
+
+<div class="text-center">
+<a href="/checout" class="btn btn-success" style="width: 200px">Checkout</a>
+</div>
+
+
+  
+{{else}}
+
+{{#if hasCart}}
+
+<h1 class="text-center" style="padding-top: 200px">your Shopping cart is expired</h1>
+
+{{else}}
+
+<h1 class="text-center" style="padding-top: 200px">your Shopping cart is empty</h1>
+{{/if}}
+
+{{/if}}
+
+

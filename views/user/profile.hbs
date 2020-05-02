@@ -1,0 +1,197 @@
+<div class="row">
+  <h1>user name</h1>
+</div>
+
+
+<div class="row">
+  <div class="col-sm-3">
+    <div class="text-center">
+      <img src="http://www.nretnil.com/avatar/LawrenceEzekielAmos.png" class="img-thumbnail" id="image">
+
+    </div>
+    <br> <br>
+    <input type="file" id="file">
+    <div class="d-none" id="actionbutton">
+      <a href="#" class="btn btn-success">Save</a>
+      <a href="/users/profile" class="btn btn-success">Cancel</a>
+    </div>
+  </div>
+  <div class="col-sm-9">
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
+          aria-selected="true">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile"
+          aria-selected="false">Order</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact"
+          aria-selected="false">Contact</a>
+      </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+      <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+        <div class="container">
+          <div class="row" id="rowhome">
+            <div class="col-6 col-sm-3">
+              <p class="font-weight-bold">User Name</p>
+            </div>
+            <div class="col-6 col-sm-3">
+              <p class="font-weight-normal">Ahmed Emam</p>
+            </div>
+
+            <div class="w-100"></div>
+
+            <div class="col-6 col-sm-3">
+              <p class="font-weight-bold">Email</p>
+            </div>
+            <div class="col-6 col-sm-3">
+              <p class="font-weight-normal">test@test.com</p>
+            </div>
+
+            <div class="w-100"></div>
+
+            <div class="col-6 col-sm-3">
+              <p class="font-weight-bold">Contact</p>
+            </div>
+            <div class="col-6 col-sm-3">
+              <p class="font-weight-normal">123456789</p>
+            </div>
+
+            <div class="w-100"></div>
+
+            <div class="col-6 col-sm-3">
+              <p class="font-weight-bold">Adress</p>
+            </div>
+            <div class="col-6 col-sm-3">
+              <p class="font-weight-normal">test_test</p>
+            </div>
+
+            <div class="w-100"></div>
+
+            <div class="col-6 col-sm-3">
+              <p class="font-weight-bold">Password</p>
+            </div>
+            <div class="col-6 col-sm-3">
+              <p class="font-weight-normal">********</p>
+            </div>
+            <div class="text-center">
+              <button type="button" class="btn btn-primary" id="updatedata" style="margin-top: 50px;">Update Data</button>
+            </div>
+          </div>
+
+
+          <form id="formupdate" class="d-none" method="post" action="updateuser">
+            <div class="form-group">
+              <label for="UserName">User Name</label>
+              <input type="text" class="form-control" 
+                placeholder="please enter your user name" name="username">
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="text" class="form-control" 
+                placeholder="please enter your Email" name="email">
+            </div>
+            <div class="form-group">
+              <label for="Contact">Contact</label>
+              <input type="text" class="form-control" 
+                placeholder="please enter your Contact" name="contact">
+            </div>
+            <div class="form-group">
+              <label for="Adress">Adress4</label>
+              <input type="text" class="form-control" 
+                placeholder="please enter your user adress" name="adress">
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="text" class="form-control" 
+                placeholder="please enter your Password" name="password">
+            </div>
+            <div class="form-group">
+              <label for="confirem password">Confirm Password</label>
+              <input type="text" class="form-control" 
+                placeholder="please enter your confirm password" name="confirm-password">
+            </div>
+            
+            <div class="text-center">
+              <input type="hidden" name="_csrf" value="{{token}}" >
+              <button type="submit" class="btn btn-success">Save</button>
+              <a href="/users/profile" class="btn btn-danger">Cancel</a>
+            </div>
+          </form>
+
+        </div>
+
+
+
+      </div>
+      <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+        <div style="padding-top: 30px">
+
+          {{#each userOrder as |val index|}}
+
+          <table class="table table-bordered">
+            <thead>
+              <tr class="table-active text-cenetr">
+
+                <td colspan="4" style="font-weight: bold" class="text-center "> Order Numer {{add @index}}</td>
+              </tr>
+              <tr>
+                <th scope="col" class="text-center ">#</th>
+                <th scope="col" class="text-center ">Product Name</th>
+                <th scope="col" class="text-center ">Product Quantity</th>
+                <th scope="col" class="text-center ">Product Price</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              {{#each this.cart.selectedProduct as |val indexProduct|}}
+              <tr>
+                <th scope="row" class="text-center ">{{add @indexProduct}}</th>
+                <td class="text-center ">{{this.name}}</td>
+                <td class="text-center ">{{this.quantity}}</td>
+                <td class="text-center ">{{this.price}}</td>
+              </tr>
+              {{/each}}
+
+              <tr class="table-primary">
+                <td colspan="3" style="font-weight: bold">Total Price</td>
+                <td style="font-weight: bold" class="text-center "> $ {{this.orderPrice}}</td>
+              </tr>
+
+            </tbody>
+          </table>
+
+          {{/each}}
+
+        </div>
+      </div>
+      <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+  document.getElementById('file').onchange = function () {
+    const reader = new FileReader();
+
+    reader.onload = function () {
+      document.getElementById('image').src = this.result;
+    }
+
+    reader.readAsDataURL(this.files[0]);
+    $('#file').addClass('d-none');
+    $('#actionbutton').removeClass();
+
+  }
+
+
+  document.getElementById('updatedata').onclick = function () {
+    $('#rowhome').addClass('d-none');
+    $('#formupdate').removeClass('d-none')
+  }
+
+</script>
