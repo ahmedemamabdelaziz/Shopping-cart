@@ -19,7 +19,7 @@
     "express-validator": "^6.1.1",
     "hbs": "~4.0.4",
     "http-errors": "~1.6.3",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "mongoose": "^5.9.9",
     "morgan": "~1.9.1",
     "passport": "^0.4.0",
