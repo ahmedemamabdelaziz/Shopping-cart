@@ -9,7 +9,7 @@ passport.serializeUser((user , done)=>{
 })
 
 passport.deserializeUser((id , done)=>{
-    User.findById(id ,('email') ,(err ,user)=>{
+    User.findById(id ,('email userName contact address') ,(err ,user)=>{
         Cart.findById(id , (err , cart)=>{
             if(!cart){
                 return done(err , user)

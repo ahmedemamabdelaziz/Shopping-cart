@@ -12,6 +12,18 @@ const userSchema = mongoose.Schema({
         required : true
 
     } ,
+
+    userName : {
+        type : String ,
+    } ,
+
+    contact : {
+        type : Number ,
+    } ,
+     
+    address : {
+        type : String ,
+    }
 })
 
 userSchema.methods.hashPassword = function(password){

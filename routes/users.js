@@ -70,11 +70,24 @@ router.get('/profile' , isSignin ,(req , res ,next)=>{
     }
 
     console.log(resualt) ;
+
+
+    var massagesError = req.flash('profileError') ;
+
+    var hasMassagesError =  false ;
+    if(massagesError.length > 0){
+      hasMassagesError =  true ;
+    }
+
+    
     res.render('user/profile', {checkuser : true ,
        checkProfile : true ,
        totalProducts : totalProducts ,
        userOrder : resualt ,
        token : req.csrfToken() ,
+       massages : massagesError ,
+       hasMassagesError : hasMassagesError ,
+       user : req.user ,
       
       })
   })
@@ -127,7 +140,7 @@ router.post('/updateuser' ,  [
   check('email').not().isEmpty().withMessage('please enter your email'),
   check('email').isEmail().withMessage('please enter valid email'),
   check('contact').not().isEmpty().withMessage('please enter your contact'),
-  check('adress').not().isEmpty().withMessage('please enter your adress'),
+  check('address').not().isEmpty().withMessage('please enter your adress'),
   
   check('password').not().isEmpty().withMessage('please enter your password'),
   check('password').isLength({ min: 5 }).withMessage('please enter pssword more than 5 char'),
@@ -148,14 +161,30 @@ router.post('/updateuser' ,  [
      validationMassages.push(errors.errors[i].msg)
    }
 
-   req.flash('signupError' , validationMassages) ;
+   req.flash('profileError' , validationMassages) ;
    console.log(validationMassages)
-   //res.redirect('/profile')
+   res.redirect('profile')
 
     return;
   }else{
     console.log('user updated')
-    //res.redirect('/profile')
+    const updatedUser = {
+      userName : req.body.username ,
+      email : req.body.email ,
+      contact : req.body.contact ,
+      address : req.body.address ,
+      password : new User().hashPassword(req.body.password)
+    }
+
+    User.updateOne({_id : req.user._id} , {$set : updatedUser} , (err , doc)=>{
+      if(err){
+        console.log(err)
+      }else{
+        console.log(doc);
+        res.redirect('profile')
+      }
+    })
+    
   }
 })
 

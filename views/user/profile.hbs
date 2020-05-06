@@ -1,5 +1,7 @@
+
+<input type="hidden" value="{{{hasMassagesError}}}" id="hasMassagesError">
 <div class="row">
-  <h1>user name</h1>
+  <h1>{{{user.userName}}}</h1>
 </div>
 
 
@@ -39,7 +41,7 @@
               <p class="font-weight-bold">User Name</p>
             </div>
             <div class="col-6 col-sm-3">
-              <p class="font-weight-normal">Ahmed Emam</p>
+              <p class="font-weight-normal">{{{user.userName}}}</p>
             </div>
 
             <div class="w-100"></div>
@@ -48,7 +50,7 @@
               <p class="font-weight-bold">Email</p>
             </div>
             <div class="col-6 col-sm-3">
-              <p class="font-weight-normal">test@test.com</p>
+              <p class="font-weight-normal">{{{user.email}}}</p>
             </div>
 
             <div class="w-100"></div>
@@ -57,7 +59,7 @@
               <p class="font-weight-bold">Contact</p>
             </div>
             <div class="col-6 col-sm-3">
-              <p class="font-weight-normal">123456789</p>
+              <p class="font-weight-normal">{{{user.contact}}}</p>
             </div>
 
             <div class="w-100"></div>
@@ -66,7 +68,7 @@
               <p class="font-weight-bold">Adress</p>
             </div>
             <div class="col-6 col-sm-3">
-              <p class="font-weight-normal">test_test</p>
+              <p class="font-weight-normal">{{{user.address}}}</p>
             </div>
 
             <div class="w-100"></div>
@@ -81,9 +83,18 @@
               <button type="button" class="btn btn-primary" id="updatedata" style="margin-top: 50px;">Update Data</button>
             </div>
           </div>
+          
+           
 
 
-          <form id="formupdate" class="d-none" method="post" action="updateuser">
+          <form id="formupdate" class="d-none" method="post" action="updateuser" style="margin-top: 30px;">
+            {{#each massages}}
+
+           <div class="alert alert-danger">
+             <p>{{this}}</p>
+           </div>
+             
+           {{/each}}
             <div class="form-group">
               <label for="UserName">User Name</label>
               <input type="text" class="form-control" 
@@ -100,9 +111,9 @@
                 placeholder="please enter your Contact" name="contact">
             </div>
             <div class="form-group">
-              <label for="Adress">Adress4</label>
+              <label for="Adress">Address</label>
               <input type="text" class="form-control" 
-                placeholder="please enter your user adress" name="adress">
+                placeholder="please enter your user adress" name="address">
             </div>
             <div class="form-group">
               <label for="password">Password</label>
@@ -175,6 +186,14 @@
 
 
 <script>
+
+
+  console.log(document.getElementById('hasMassagesError').value)
+
+  if(document.getElementById('hasMassagesError').value === "true"){
+    $('#rowhome').addClass('d-none');
+    $('#formupdate').removeClass('d-none')
+  }
   document.getElementById('file').onchange = function () {
     const reader = new FileReader();
 
