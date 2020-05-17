@@ -24,6 +24,11 @@ const orderSchems = mongoose.Schema({
         required : true ,
     } ,
 
+    contact : {
+        type : String ,
+        required : true ,
+    } ,
+
     paymentId : {
         type : String ,
         required : true ,

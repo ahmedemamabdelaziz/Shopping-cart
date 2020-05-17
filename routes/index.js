@@ -270,13 +270,24 @@ router.get('/deleteProduct/:index' , (req , res ,next)=>{
 
 router.get('/checout' , (req , res , next)=>{
 
+
+
+
   if(req.user.cart){
     const errorMas = req.flash('error')[0] ;
     console.log(errorMas)
+    console.log(req.user)
+
+    if(req.user.userName === undefined || req.user.address === undefined || req.user.contact === undefined ){
+      req.flash('profileError' , ['please update your information befor do order']) ;
+      res.redirect('users/profile') ;
+      return ;
+    }
     res.render('checkout' ,{checkuser :true , 
        totalProducts : req.user.cart.totalquantity ,
        totalPrice : req.user.cart.totalPrice ,
        errorMas : errorMas ,
+       user : req.user ,
   
         }) 
   }else{
@@ -315,6 +326,7 @@ router.post('/checkout' , (req , res , next)=>{
         cart : req.user.cart ,
         address : req.body.address ,
         name : req.body.name ,
+        contact : req.body.contact  , 
         paymentId : charge.id ,
         orderPrice : req.user.cart.totalPrice ,
       }) ;
