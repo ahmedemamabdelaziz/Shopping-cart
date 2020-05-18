@@ -40,16 +40,24 @@
             <div class="col-6 col-sm-3">
               <p class="font-weight-bold">User Name</p>
             </div>
-            <div class="col-6 col-sm-3">
+
+            {{#if   user.userName }}
+                <div class="col-6 col-sm-6">
               <p class="font-weight-normal">{{{user.userName}}}</p>
             </div>
+            {{else}}
+                <div class="col-6 col-sm-6">
+              <p class="font-weight-normal">please update your information</p>
+            </div>
+            {{/if}}
+          
 
             <div class="w-100"></div>
 
             <div class="col-6 col-sm-3">
               <p class="font-weight-bold">Email</p>
             </div>
-            <div class="col-6 col-sm-3">
+            <div class="col-6 col-sm-6">
               <p class="font-weight-normal">{{{user.email}}}</p>
             </div>
 
@@ -58,18 +66,30 @@
             <div class="col-6 col-sm-3">
               <p class="font-weight-bold">Contact</p>
             </div>
-            <div class="col-6 col-sm-3">
-              <p class="font-weight-normal">{{{user.contact}}}</p>
+             {{#if   user.contact }}
+                <div class="col-6 col-sm-6">
+              <p class="font-weight-normal">{{{user.usercontact}}}</p>
             </div>
+            {{else}}
+                <div class="col-6 col-sm-6">
+              <p class="font-weight-normal">please update your information</p>
+            </div>
+            {{/if}}
 
             <div class="w-100"></div>
 
             <div class="col-6 col-sm-3">
-              <p class="font-weight-bold">Adress</p>
+              <p class="font-weight-bold">Address</p>
             </div>
-            <div class="col-6 col-sm-3">
+           {{#if   user.address }}
+                <div class="col-6 col-sm-6">
               <p class="font-weight-normal">{{{user.address}}}</p>
             </div>
+            {{else}}
+                <div class="col-6 col-sm-6">
+              <p class="font-weight-normal">please update your information</p>
+            </div>
+            {{/if}}
 
             <div class="w-100"></div>
 

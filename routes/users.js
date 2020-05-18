@@ -167,23 +167,28 @@ router.post('/updateuser' ,  [
 
     return;
   }else{
-    console.log('user updated')
-    const updatedUser = {
-      userName : req.body.username ,
-      email : req.body.email ,
-      contact : req.body.contact ,
-      address : req.body.address ,
-      password : new User().hashPassword(req.body.password)
-    }
 
-    User.updateOne({_id : req.user._id} , {$set : updatedUser} , (err , doc)=>{
+    User.find({email : req.body.email} , (err , doc)=>{
       if(err){
         console.log(err)
       }else{
-        console.log(doc);
-        res.redirect('profile')
+        if(doc.length <= 0 ){
+          updateuser(req , res ) ;
+
+          return ;
+        }else{
+          if((doc[0]._id).toString() === (req.user._id).toString()){
+            updateuser(req , res) ; 
+
+            return ;
+          }else{
+            req.flash('profileError' , ['this email already used']) ;
+            res.redirect('profile') ;
+          }
+        }
       }
     })
+    
     
   }
 })
@@ -213,7 +218,26 @@ function isNotSignin (req , res ,next){
 
 }
 
+function updateuser(req , res ){
+  console.log('user updated')
+    const updatedUser = {
+      userName : req.body.username ,
+      email : req.body.email ,
+      contact : req.body.contact ,
+      address : req.body.address ,
+      password : new User().hashPassword(req.body.password)
+    }
 
+    User.updateOne({_id : req.user._id} , {$set : updatedUser} , (err , doc)=>{
+      if(err){
+        console.log(err)
+      }else{
+        console.log(doc);
+        req.logOut();
+        res.redirect('signin')
+      }
+    })
+}
 
 
 
