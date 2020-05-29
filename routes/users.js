@@ -6,6 +6,8 @@ const { check, validationResult } = require('express-validator');
 const User = require('../models/User');
 const passport = require('passport') ;
 const Order = require ('../models/Order') ;
+const multer = require('multer') ;
+const upload = multer({dest : '/public/upload/'})
 
 
 const csrf = require('csurf') ;
@@ -193,12 +195,16 @@ router.post('/updateuser' ,  [
   }
 })
 
+router.post('/uploadfile' , upload.single('myfile')  , (req , res , next)=>{
+  console.log(req.file)
+  res.redirect('profile')
+})
+
 router.get('/logout' , isSignin ,  (req , res ,next)=>{
   req.logOut() ;
   res.redirect('/') 
   
 })
-
 
 function isSignin(req , res ,  next){
   if(! req.isAuthenticated()){
