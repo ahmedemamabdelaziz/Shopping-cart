@@ -7,12 +7,24 @@ const User = require('../models/User');
 const passport = require('passport') ;
 const Order = require ('../models/Order') ;
 const multer = require('multer') ;
-const upload = multer({dest : '/public/upload/'})
+
+
+const storage = multer.diskStorage({
+  destination : function(req , file , cb){
+    cb(null , './public/upload/')
+  } ,
+  filename : function(req , file , cb){
+     cb(null , new Date().toDateString() + file.originalname)
+  }
+
+})
+
+const upload = multer({storage : storage}) ;
 
 
 const csrf = require('csurf') ;
 
-
+router.use(upload.single('myfile')) ; 
 router.use(csrf()) ;
 
 /* GET users listing. */
@@ -195,7 +207,8 @@ router.post('/updateuser' ,  [
   }
 })
 
-router.post('/uploadfile' , upload.single('myfile')  , (req , res , next)=>{
+router.post('/uploadfile'  , (req , res , next)=>{
+
   console.log(req.file)
   res.redirect('profile')
 })
