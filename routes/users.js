@@ -209,8 +209,19 @@ router.post('/updateuser' ,  [
 
 router.post('/uploadfile'  , (req , res , next)=>{
 
-  console.log(req.file)
-  res.redirect('profile')
+  console.log((req.file.path).slice(6)) ;
+  const newuser = {
+    image : (req.file.path).slice(6)
+  }
+  User.updateOne({_id : req.user._id} , {$set : newuser} , (err , doc)=>{
+    if(err){
+      console.log(err)
+    }else{
+      console.log(doc)
+      res.redirect('profile')
+    }
+  })
+  
 })
 
 router.get('/logout' , isSignin ,  (req , res ,next)=>{

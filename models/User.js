@@ -23,6 +23,10 @@ const userSchema = mongoose.Schema({
      
     address : {
         type : String ,
+    } ,
+    image :{
+        type : String ,
+        default : "/upload/avatar.jpg"
     }
 })
 
