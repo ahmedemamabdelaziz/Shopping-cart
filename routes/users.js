@@ -7,6 +7,7 @@ const User = require('../models/User');
 const passport = require('passport') ;
 const Order = require ('../models/Order') ;
 const multer = require('multer') ;
+const fs = require('fs') ;
 
 
 const fileFilter = function(req , file , cb){
@@ -233,19 +234,35 @@ router.post('/updateuser' ,  [
 
 router.post('/uploadfile'  , (req , res , next)=>{
 
- console.log(req.file) ;
-  console.log((req.file.path).slice(6)) ;
-  const newuser = {
-    image : (req.file.path).slice(6)
-  }
-  User.updateOne({_id : req.user._id} , {$set : newuser} , (err , doc)=>{
+  const path = "./public" + req.user.image ;
+
+  fs.unlink(path , (err)=>{
     if(err){
-      console.log(err)
+
+   req.flash('profileImageError' , [err.message]) ;
+    res.redirect('profile') ;
+    return ;
+
     }else{
-      console.log(doc)
-      res.redirect('profile')
+      console.log(req.file) ;
+    console.log((req.file.path).slice(6)) ;
+    const newuser = {
+      image : (req.file.path).slice(6)
     }
+    User.updateOne({_id : req.user._id} , {$set : newuser} , (err , doc)=>{
+      if(err){
+        console.log(err)
+      }else{
+        console.log(doc)
+        res.redirect('profile')
+      }
+    })
+    }
+
+    
   })
+
+
   
 })
 
