@@ -9,6 +9,15 @@ const Order = require ('../models/Order') ;
 const multer = require('multer') ;
 
 
+const fileFilter = function(req , file , cb){
+  if(file.mimetype === 'image/jpeg'){
+    cb(null , true)
+  }else{
+    cb(new Error('please upload jpeg image') , false) ;
+  }
+}
+
+
 const storage = multer.diskStorage({
   destination : function(req , file , cb){
     cb(null , './public/upload/')
@@ -19,12 +28,25 @@ const storage = multer.diskStorage({
 
 })
 
-const upload = multer({storage : storage}) ;
+const upload = multer({
+  storage : storage ,
+  limits :{
+    fileSize : 1024*1024*5
+  } ,
+
+  fileFilter : fileFilter ,
+
+}) ;
 
 
 const csrf = require('csurf') ;
 
-router.use(upload.single('myfile')) ; 
+router.use(upload.single('myfile') , (err , req , res , next)=>{
+  if(err){
+    req.flash('profileImageError' , [err.message]) ;
+    res.redirect('profile') ;
+  }
+}) ; 
 router.use(csrf()) ;
 
 /* GET users listing. */
@@ -87,6 +109,7 @@ router.get('/profile' , isSignin ,(req , res ,next)=>{
 
 
     var massagesError = req.flash('profileError') ;
+    var messageImage = req.flash('profileImageError')
 
     var hasMassagesError =  false ;
     if(massagesError.length > 0){
@@ -102,6 +125,7 @@ router.get('/profile' , isSignin ,(req , res ,next)=>{
        massages : massagesError ,
        hasMassagesError : hasMassagesError ,
        user : req.user ,
+       messageImage : messageImage ,
       
       })
   })
@@ -209,6 +233,7 @@ router.post('/updateuser' ,  [
 
 router.post('/uploadfile'  , (req , res , next)=>{
 
+ console.log(req.file) ;
   console.log((req.file.path).slice(6)) ;
   const newuser = {
     image : (req.file.path).slice(6)

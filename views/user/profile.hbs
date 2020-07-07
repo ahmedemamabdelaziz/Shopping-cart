@@ -1,3 +1,10 @@
+{{#if messageImage}}
+
+<div class="alert alert-danger">
+  <p>{{messageImage}}</p>
+</div>
+
+{{/if}}
 <input type="hidden" value="{{{hasMassagesError}}}" id="hasMassagesError">
 <div class="row">
   <h1>{{{user.userName}}}</h1>
@@ -13,16 +20,16 @@
     <br> <br>
 
     <form action="uploadfile" method="post" enctype="multipart/form-data">
-      <input type="file" id="file" name="myfile">
-    <div class="d-none" id="actionbutton">
-      <input type="hidden" name="_csrf" value="{{token}}">
-      <input type="submit" value="Save" class="btn btn-success">
-      <a href="/users/profile" class="btn btn-danger">Cancel</a>
-    </div>
+      <input type="file" id="file" name="myfile" accept="image/jpeg">
+      <div class="d-none" id="actionbutton">
+        <input type="hidden" name="_csrf" value="{{token}}">
+        <input type="submit" value="Save" class="btn btn-success">
+        <a href="/users/profile" class="btn btn-danger">Cancel</a>
+      </div>
 
     </form>
 
-    
+
   </div>
   <div class="col-sm-9">
     <ul class="nav nav-tabs" id="myTab" role="tablist">
